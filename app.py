@@ -44,7 +44,7 @@ def create_app(test_config=None):
             'success': True,
             'movies': movies_format,
             'total_movies': len(movies_format)
-        }, 200)
+        }), 200
 
     @app.route('/actors', methods=['GET'])
     @requires_auth('get:actors')
@@ -59,7 +59,7 @@ def create_app(test_config=None):
             'success': True,
             'actors': actors_format,
             'total_actors': len(actors_format)
-        }, 200)
+        }), 200
 
     @app.route('/movies/<int:movie_id>', methods=['GET'])
     @requires_auth('get:movies')
@@ -72,7 +72,7 @@ def create_app(test_config=None):
         return jsonify({
             'success': True,
             'movie': movie_detail.format()
-        }, 200)
+        }), 200
 
     @app.route('/actors/<int:actor_id>', methods=['GET'])
     @requires_auth('get:actors')
@@ -85,7 +85,7 @@ def create_app(test_config=None):
         return jsonify({
             'success': True,
             'actor': actor_detail.format()
-        }, 200)
+        }), 200
 
     # Delete methods
     # ---------------------------
@@ -103,7 +103,7 @@ def create_app(test_config=None):
         return jsonify({
             'success': True,
             'deleted movie_id': movie_id
-        }, 200)
+        }), 200
 
     @app.route('/actors/<int:actor_id>', methods=['DELETE'])
     @requires_auth('delete:actors')
@@ -118,7 +118,7 @@ def create_app(test_config=None):
         return jsonify({
             'success': True,
             'deleted actor_id': actor_id
-        }, 200)
+        }), 200
 
     # POST ENDPOINTS IMPLEMENTATION
     # ---------------------------------------
@@ -146,7 +146,7 @@ def create_app(test_config=None):
             'success': True,
             'message': "Movie Added Successfully",
             'movie': new_movie.format()
-        }, 200)
+        }), 200
 
     @app.route('/actors', methods=['POST'])
     @requires_auth('post:actors')
@@ -172,7 +172,7 @@ def create_app(test_config=None):
             'success': True,
             'message': "Actor Added Successfully",
             'actor': new_actor.format()
-        }, 200)
+        }), 200
 
     # PATCH ENDPOINT IMPLEMENTATION
 
@@ -201,7 +201,7 @@ def create_app(test_config=None):
             "success": True,
             "message": "Movie Successfully Updated",
             "movie_id": movie_id
-        }, 200)
+        }), 200
 
     @app.route('/actors/<int:actor_id>', methods=['PATCH'])
     @requires_auth('patch:actors')
@@ -232,7 +232,7 @@ def create_app(test_config=None):
             "success": True,
             "message": "Actor Successfully Updated",
             "actor_id": actor_id
-        }, 200)
+        }), 200
 
     # ERROR HANDLINGS
 
@@ -242,7 +242,7 @@ def create_app(test_config=None):
             'success': False,
             'error': 400,
             'message': "Bad Request"
-        }, 400)
+        }), 400
 
     @app.errorhandler(401)
     def unauthorized(error):
@@ -250,7 +250,7 @@ def create_app(test_config=None):
             'success': False,
             'error': 401,
             'message': "Not Authorized"
-        }, 401)
+        }), 401
 
     @app.errorhandler(403)
     def bad_permission(error):
@@ -258,7 +258,7 @@ def create_app(test_config=None):
             'success': False,
             'error': 403,
             'message': "Bad Permission"
-        }, 403)
+        }), 403
 
     @app.errorhandler(404)
     def not_found(error):
@@ -266,7 +266,7 @@ def create_app(test_config=None):
             'success': False,
             'error': 404,
             'message': "Request Not Found"
-        }, 404)
+        }), 404
 
     @app.errorhandler(405)
     def method_not_allowed(error):
@@ -274,7 +274,7 @@ def create_app(test_config=None):
             'success': False,
             'error': 405,
             'message': "Method not allowed"
-        }, 405)
+        }), 405
 
     @app.errorhandler(422)
     def unprocessable_request(error):
@@ -282,7 +282,7 @@ def create_app(test_config=None):
             'success': False,
             'error': 422,
             'message': "Request cannot be processed"
-        }, 422)
+        }), 422
 
     @app.errorhandler(500)
     def internal_server_error(error):
@@ -290,7 +290,7 @@ def create_app(test_config=None):
             'success': False,
             'error': 500,
             'message': "Internal Server Error"
-        }, 500)
+        }), 500
 
     return app
 
