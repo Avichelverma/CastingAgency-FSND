@@ -12,6 +12,7 @@ API_AUDIENCE = os.getenv('API_AUDIENCE')
 
 # AuthError Exception
 
+
 class AuthError(Exception):
     def __init__(self, error, status_code):
         self.error = error

@@ -1,5 +1,6 @@
 import os
-from sqlalchemy import Column, String, Integer, create_engine, Table, ForeignKey, DateTime
+from sqlalchemy import Column, String, Integer
+from sqlalchemy import create_engine, Table, ForeignKey, DateTime
 from flask_sqlalchemy import SQLAlchemy
 import json
 
