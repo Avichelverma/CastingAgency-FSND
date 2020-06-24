@@ -133,11 +133,6 @@ def create_app(test_config=None):
         if title is None:
             abort(422)
 
-        movie_list = Movie.query.filter(Movie.title == title).all()
-
-        if (len(movie_list) > 0):
-            abort(400)
-
         new_movie = Movie(title=title, release_date=release_date)
 
         new_movie.insert()
@@ -159,11 +154,6 @@ def create_app(test_config=None):
         if name is None:
             abort(422)
 
-        actor_list = Actor.query.filter(Actor.name == name).all()
-
-        if (len(actor_list) > 0):
-            abort(400)
-
         new_actor = Actor(name=name, age=age, gender=gender)
 
         new_actor.insert()
@@ -179,6 +169,10 @@ def create_app(test_config=None):
     @app.route('/movies/<int:movie_id>', methods=['PATCH'])
     @requires_auth('patch:movies')
     def patch_movie_id(token, movie_id):
+        
+        movie = Movie.query.get(movie_id)
+        if movie is None:
+            abort(404)
 
         data = request.get_json()
         title = data.get('title', None)
@@ -207,8 +201,12 @@ def create_app(test_config=None):
     @requires_auth('patch:actors')
     def patch_actor_id(token, actor_id):
 
+        actor = Actor.query.get(actor_id)
+
+        if actor is None:
+            abort(404)
+
         data = request.get_json()
-        print(data)
         name = data.get('name', None)
         age = data.get('age', None)
         gender = data.get('gender', None)
@@ -292,8 +290,14 @@ def create_app(test_config=None):
             'message': "Internal Server Error"
         }), 500
 
-    return app
 
+    @app.errorhandler(AuthError)
+    def handle_auth_error(exception):
+        response = jsonify(exception.error)
+        response.status_code = exception.status_code
+        return response
+
+    return app
 
 app = create_app()
 

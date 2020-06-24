@@ -6,12 +6,11 @@ from jose import jwt
 from urllib.request import urlopen
 
 
-AUTH0_DOMAIN = 'fnsdlearning.us.auth0.com'
-ALGORITHMS = ['RS256']
-API_AUDIENCE = 'casting'
+AUTH0_DOMAIN = os.getenv('AUTH0_DOMAIN')
+ALGORITHMS = [os.getenv('ALGORITHMS')]
+API_AUDIENCE = os.getenv('API_AUDIENCE')
 
 # AuthError Exception
-
 
 class AuthError(Exception):
     def __init__(self, error, status_code):
@@ -100,11 +99,6 @@ def verify_decode_jwt(token):
                 'n': key['n'],
                 'e': key['e']
             }
-    # print("-----RSA KEY-------------")
-    # print(rsa_key)
-    # print(ALGORITHMS)
-    # print(API_AUDIENCE)
-    # print(AUTH0_DOMAIN)
     if rsa_key:
         try:
             payload = jwt.decode(
