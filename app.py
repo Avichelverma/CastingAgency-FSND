@@ -129,6 +129,7 @@ def create_app(test_config=None):
         data = request.get_json()
         title = data.get('title', None)
         release_date = data.get('release_date', None)
+        print(title)
 
         if title is None:
             abort(422)
@@ -169,7 +170,7 @@ def create_app(test_config=None):
     @app.route('/movies/<int:movie_id>', methods=['PATCH'])
     @requires_auth('patch:movies')
     def patch_movie_id(token, movie_id):
-        
+
         movie = Movie.query.get(movie_id)
         if movie is None:
             abort(404)
@@ -290,7 +291,6 @@ def create_app(test_config=None):
             'message': "Internal Server Error"
         }), 500
 
-
     @app.errorhandler(AuthError)
     def handle_auth_error(exception):
         response = jsonify(exception.error)
@@ -298,6 +298,7 @@ def create_app(test_config=None):
         return response
 
     return app
+
 
 app = create_app()
 
